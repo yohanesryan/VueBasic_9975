@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div >
+            <p >Tebak Angka</p>
+            <p >Silahkan tebak dari 1 - 10</p>
+            <div >
+                <input type="number" class="form-control" v-model="tebakan" :disabled="isDisabled" placeholder="Masukkan Tebakan Mu!"/><br>
+                Kesempatan : {{ kesempatan }} <br><br>
+                <button  @click="tebak" :disabled="isDisabled">Tebak</button><br>
+            </div>
+        </div>
+
+        <div class="text-center" v-show="benar">
+            <br><p>BENAR</p> 
+            <button  @click="mainlagi" >Main Lagi</button>
+        </div>
+
+        <div class="text-center" v-show="kalah">
+            <br><p>KALAH</p> 
+            <br><p>JAWABAN BENAR {{ angka }}</p>            
+            <button  @click="mainlagi" >Main Lagi</button>
+        </div>
+
+        <div class="text-center" v-show="salah">
+            <br><p>COBA LAGI</p> 
+            <button  @click="cobalagi" >Coba Lagi</button>
+        </div>
+
+        <footer>
+            {{ `${mhs.nama} | ${mhs.npm} | ${mhs.kelas}` }}
+        </footer>
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            angka: Math.floor(Math.random() * 10)+1,
+            tebakan:null,
+            kesempatan:3,
+            kalah:undefined,
+            salah:undefined,
+            benar:undefined,
+            isDisabled:false,
+            mhs: {
+                nama:'Yohanes Ryan Budhi Dharmawan',
+                npm: '180709975',
+                kelas: 'A',
+            },
+            
+        },
+        methods: {
+           tebak(){
+            if(this.tebakan == this.angka){
+                this.benar = 1;
+                this.isDisabled = true;
+            }else {
+                    this.salah =1;
+                    this.isDisabled = true;
+                    this.kesempatan--;
+                    if(this.kesempatan==0){
+                        this.kalah=1;
+                        this.salah = undefined;
+                    }
+            }              
+           },
+           cobalagi(){
+                this.isDisabled = false;
+                this.salah = undefined;
+           },
+           mainlagi(){
+               location.reload();
+           }
+        },
+ 
+    });
+</script>
+
+</html>
